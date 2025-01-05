@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Raleway } from 'next/font/google';
-// import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports';
+import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports';
 
 const raleway = Raleway({ subsets: ['latin', 'latin-ext'], variable: '--font-raleway', weight:['500'] });
 
@@ -32,7 +32,7 @@ export default function DashboardLayout({
             href="/itineraries" 
             className="flex items-center gap-2 px-6 py-2 bg-[#DDF0F2] text-[#01C2D2] text-xl font-light rounded-[8px] hover:bg-[#d3e9eb] transition-colors shadow-[0_8px_16px_rgba(0,0,0,0.1)] hover:shadow-[0_10px_20px_rgba(0,0,0,0.15)]"
           >
-            {/* <ConnectingAirportsIcon className="w-5 h-5" /> */}
+            <ConnectingAirportsIcon className="w-5 h-5" />
             Itineraries
           </Link>
         </nav>
