@@ -4,6 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
 import CurrencyPoundIcon from '@mui/icons-material/CurrencyPound';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
+import ItineraryTable from '@/app/components/ItineraryTable';
 import apiData from '@/api/api.json';
 import Header from '@/app/components/Header';
 
@@ -12,6 +13,11 @@ export default function Itineraries() {
   const [searchTerm, setSearchTerm] = useState('');
   const filterRef = useRef<HTMLDivElement>(null);
 
+  const filteredItineraries = useMemo(() => {
+    return apiData.itineraries.filter(itinerary => 
+      itinerary.agent.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [searchTerm]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -87,6 +93,7 @@ export default function Itineraries() {
 
       <p className="text-gray-600">Select the itinerary from the list below</p>
       
+      <ItineraryTable itineraries={filteredItineraries} />
     </div>
   );
 } 
