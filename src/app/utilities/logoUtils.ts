@@ -4,7 +4,8 @@ export const logoMap: { [key: string]: string } = {
     'Kiwi.com': 'kiwicom',
     'Lufthansa': 'lufthansa',
     'Trip.com': 'tripcom',
-    'Wizzair.com': 'wizzaircom'
+    'Wizzair.com': 'wizzaircom',
+    'Wizz Air':'wizzaircom'
 };
 
 export const getAgencyLogoPath = (agentName: string): string => {
