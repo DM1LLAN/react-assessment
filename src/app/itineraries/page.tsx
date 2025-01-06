@@ -7,17 +7,40 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import ItineraryTable from '@/app/components/ItineraryTable';
 import apiData from '@/api/api.json';
 import Header from '@/app/components/Header';
+import CloseIcon from '@mui/icons-material/Close';
+
+type SortType = 'price-low' | 'rate-high' | null;
 
 export default function Itineraries() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [sortType, setSortType] = useState<SortType>(null);
   const filterRef = useRef<HTMLDivElement>(null);
 
-  const filteredItineraries = useMemo(() => {
-    return apiData.itineraries.filter(itinerary => 
+  const filteredAndSortedItineraries = useMemo(() => {
+    let result = apiData.itineraries.filter(itinerary => 
       itinerary.agent.toLowerCase().includes(searchTerm.toLowerCase())
     );
-  }, [searchTerm]);
+
+    if (sortType === 'rate-high') {
+      result = [...result].sort((a, b) => {
+        return b.agent_rating - a.agent_rating;
+      });
+    } else if (sortType === 'price-low') {
+      result = [...result].sort((a, b) => {
+        const priceA = parseFloat(a.price.replace('£', ''));
+        const priceB = parseFloat(b.price.replace('£', ''));
+        return priceA - priceB;
+      });
+    }
+
+    return result;
+  }, [searchTerm, sortType]);
+
+  const handleSort = (type: SortType) => {
+    setSortType(type);
+    setIsFilterOpen(false);
+  };
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -73,27 +96,57 @@ export default function Itineraries() {
 
             {isFilterOpen && (
               <div className="absolute left-full top-0 ml-2 w-64 bg-white rounded-lg shadow-lg border border-gray-100 py-2 z-10">
-                <button className="w-full px-4 py-2 flex items-center gap-3 hover:bg-gray-100 transition-colors">
-                  <SentimentSatisfiedAltIcon className="text-[#01C2D2]" />
-                  <span className="text-[#2E1B4D]">Most Popular</span>
+                <button 
+                  className="w-full px-4 py-2 flex items-center gap-3 hover:bg-gray-100 transition-colors"
+                  onClick={() => handleSort('price-low')}
+                >
+                  <CurrencyPoundIcon className={`${sortType === 'price-low' ? 'text-[#01C2D2]' : 'text-gray-400'}`} />
+                  <span className={`${sortType === 'price-low' ? 'text-[#01C2D2]' : 'text-[#2E1B4D]'}`}>
+                    Price, Low to High
+                  </span>
                 </button>
-                <button className="w-full px-4 py-2 flex items-center gap-3 hover:bg-gray-100 transition-colors">
-                  <CurrencyPoundIcon className="text-[#01C2D2]" />
-                  <span className="text-[#2E1B4D]">Price, Low to High</span>
-                </button>
-                <button className="w-full px-4 py-2 flex items-center gap-3 hover:bg-gray-100 transition-colors">
-                  <StarBorderIcon className="text-[#01C2D2]" />
-                  <span className="text-[#2E1B4D]">Rate, High to Low</span>
+                <button 
+                  className="w-full px-4 py-2 flex items-center gap-3 hover:bg-gray-100 transition-colors"
+                  onClick={() => handleSort('rate-high')}
+                >
+                  <StarBorderIcon className={`${sortType === 'rate-high' ? 'text-[#01C2D2]' : 'text-gray-400'}`} />
+                  <span className={`${sortType === 'rate-high' ? 'text-[#01C2D2]' : 'text-[#2E1B4D]'}`}>
+                    Rate, High to Low
+                  </span>
                 </button>
               </div>
             )}
           </div>
         </div>
+
+        {sortType && (
+          <div className="mt-2 inline-flex items-center gap-2 px-3 py-1.5 bg-[#E8F7F8] text-[#01C2D2] rounded-full text-sm">
+            {sortType === 'rate-high' && (
+              <>
+                <StarBorderIcon sx={{ fontSize: 16 }} />
+                <span>Rate, High to Low</span>
+              </>
+            )}
+            {sortType === 'price-low' && (
+              <>
+                <CurrencyPoundIcon sx={{ fontSize: 16 }} />
+                <span>Price, Low to High</span>
+              </>
+            )}
+            <button
+              onClick={() => setSortType(null)}
+              className="ml-1 hover:text-[#018791] transition-colors"
+              aria-label="Remove filter"
+            >
+              <CloseIcon sx={{ fontSize: 16 }} />
+            </button>
+          </div>
+        )}
       </div>
 
       <p className="text-gray-600">Select the itinerary from the list below</p>
       
-      <ItineraryTable itineraries={filteredItineraries} />
+      <ItineraryTable itineraries={filteredAndSortedItineraries} />
     </div>
   );
 } 
