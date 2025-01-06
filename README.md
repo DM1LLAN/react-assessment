@@ -49,5 +49,24 @@ npm run dev
 - Node.js 18.17 or later
 - npm or yarn
 
+## Possible improvements
+
+If you have more time, you could improve these areas:
+
+- [ ] Add animations for smoother transitions
+- [ ] Add loading states and skeleton screens
+- [ ] Improve mobile responsiveness
+- [ ] Optimize performance with lazy loading
+
+## What would you do differently?
+
+If you had more time, you would do the following:
+
+1. Improve the UI and user experience with more interactive elements
+2. Add animations to capture user attention
+3. Animated iconography
+4. Add more accessibility features
+5. Flight seat reservation screens
+
 ## Autor
 - ![D-Logo](public/D-Logo.svg) _Diego Millán **(@DM1LLAN)**_
