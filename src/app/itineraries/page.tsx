@@ -98,6 +98,13 @@ export default function Itineraries() {
               <div className="absolute left-full top-0 ml-2 w-64 bg-white rounded-lg shadow-lg border border-gray-100 py-2 z-10">
                 <button 
                   className="w-full px-4 py-2 flex items-center gap-3 hover:bg-gray-100 transition-colors"
+                  onClick={() => setIsFilterOpen(false)}
+                >
+                  <SentimentSatisfiedAltIcon className="text-gray-400" />
+                  <span className="text-[#2E1B4D]">Most Popular</span>
+                </button>
+                <button 
+                  className="w-full px-4 py-2 flex items-center gap-3 hover:bg-gray-100 transition-colors"
                   onClick={() => handleSort('price-low')}
                 >
                   <CurrencyPoundIcon className={`${sortType === 'price-low' ? 'text-[#01C2D2]' : 'text-gray-400'}`} />
